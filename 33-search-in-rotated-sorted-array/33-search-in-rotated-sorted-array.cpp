@@ -27,35 +27,32 @@ public:
         int ans=-1,n=v.size();
         
         int start=0,end=v.size()-1,index=-1;
-        if(v[start]<=v[end]) return binSearch(v,target,start,end);
-        else{
-          while(start<=end){
+        while(start<=end){
             int mid=start+(end-start)/2;
-            int next=(mid+1)%n;
-            int prev=(mid+n-1)%n;
             
-            if(v[mid]<=v[prev] and v[mid]<=v[next]){
-                index=mid;
+            if(v[mid]==target){
+                ans=mid;
                 break;
             }
             else{
-                if(v[start]<=v[end]) {index=start;break;}
-                else if(v[start]<=v[mid]) start = mid+1;
-                else if(v[mid]<=v[end]) end=mid-1;
+                
+                //checking left half sort
+                if(v[0]<=v[mid]){
+                    if(target>=v[0] and target<=v[mid]){
+                        end=mid-1;
+                    }
+                    else start=mid+1;
+                }
+                else{
+                    if(target>=v[mid] and target<=v[end]){
+                        start=mid+1;
+                    }
+                    else end=mid-1;
+                }
             }
         }
-          
-        }
         
-       if(target>=v[0]){
-           start=0;
-           end=index;
-       }       
-        else if(target<=v[v.size()-1]){
-            start=index;
-            end=v.size()-1;
-        }
-        return binSearch(v,target,start,end);
+        return ans;
         
     }
     

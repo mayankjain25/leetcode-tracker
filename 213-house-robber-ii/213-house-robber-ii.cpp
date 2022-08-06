@@ -1,10 +1,10 @@
 class Solution {
 public:
     
-    int f(vector<int>&nums){
-        int prev1=nums[0],prev2=0,cur_i;
+    int f(vector<int>&nums, int start, int end){
+        int prev1=nums[start],prev2=0,cur_i;
         int n=nums.size();
-        for(int i=1;i<n;i++){
+        for(int i=start+1;i<=end;i++){
             
             int pick=nums[i];
             if(i>1) pick+=prev2;
@@ -31,6 +31,6 @@ public:
             if(i!=0) v2.push_back(nums[i]);
         }
         
-        return max(f(v1),f(v2));
+        return max(f(nums,0,n-2),f(nums,1,n-1));
     }
 };

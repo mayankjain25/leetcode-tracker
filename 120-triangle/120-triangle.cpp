@@ -25,20 +25,24 @@ public:
         // return f(0,0,triangle.size(),triangle,dp);
         
         //for the base case
-        for(int j=0;j<n;j++) dp[n-1][j]=triangle[n-1][j];
+        vector<int>row(n,0),curRow(n,0);
+        
+        for(int j=0;j<n;j++) row[j]=triangle[n-1][j];
         
         //for tabulation
-        
         for(int i=n-2;i>=0;i--){
+            // row=triangle[i+1];
+            
             for(int j=i;j>=0;j--){
                 int down=0,downRight=INT_MAX;
-                down=triangle[i][j]+dp[i+1][j];
-                downRight=triangle[i][j] + dp[i+1][j+1];
-                dp[i][j]=min(down,downRight);
+                down=triangle[i][j]+row[j];
+                downRight=triangle[i][j] + row[j+1];
+                curRow[j]=min(down,downRight);
                 
             }
+            row=curRow;
         }
         
-        return dp[0][0];
+        return row[0];
 }
 };

@@ -9,6 +9,7 @@ public:
                 ans++;
                 coins-=costs[i];
             }
+            else return i;
         }
         
         return ans;

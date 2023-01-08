@@ -7,7 +7,7 @@ public:
             pq.push(it);
         }
         
-        while(k>0){
+        while(k>0 and !pq.empty()){
             score+=pq.top();
             pq.push(ceil((double)pq.top()/3));
             pq.pop();

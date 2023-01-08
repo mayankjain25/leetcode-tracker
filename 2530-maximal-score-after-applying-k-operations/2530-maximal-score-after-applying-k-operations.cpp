@@ -2,10 +2,10 @@ class Solution {
 public:
     long long maxKelements(vector<int>& nums, int k) {
        long long score=0;
-        priority_queue<int>pq;
-        for(auto it:nums){
-            pq.push(it);
-        }
+        priority_queue<int>pq(nums.begin(),nums.end());
+        // for(auto it:nums){
+        //     pq.push(it);
+        // }
         
         while(k>0 and !pq.empty()){
             score+=pq.top();

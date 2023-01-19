@@ -1,7 +1,9 @@
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
-        map<int,int>m;
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        unordered_map<int,int>m;
         int ans=0;
         m[0]=1;
         int sum=0;

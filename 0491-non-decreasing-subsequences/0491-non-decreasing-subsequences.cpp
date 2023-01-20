@@ -3,6 +3,9 @@ public:
     
     void helper(int ind,vector<int>&nums, vector<int>&temp,set<vector<int>>&v1){
         
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        
         if(ind>=nums.size()){
             if(temp.size()>=2) v1.insert(temp);
             return;

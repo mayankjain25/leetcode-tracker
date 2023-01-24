@@ -11,34 +11,22 @@
  */
 class Solution {
 public:
-    TreeNode* bstFromPreorder(vector<int>& preorder) {
-        vector<int>inorder=preorder;
-        sort(inorder.begin(),inorder.end());
-        
-        unordered_map<int,int>inHash;
-        
-        for(int i=0;i<inorder.size();i++){
-            inHash[inorder[i]]=i;
-        }
-        
-        TreeNode * root = makeTree(preorder, 0, preorder.size()-1,inorder,0,inorder.size()-1,inHash);
-        
+    
+    TreeNode * makeTree(int &ind, vector<int>&preorder, int ub){
+        if(ind==preorder.size() or preorder[ind]>ub) return NULL;
+        TreeNode * root = new TreeNode(preorder[ind++]);
+        root->left = makeTree(ind, preorder, root->val);
+        root->right = makeTree(ind, preorder,ub);
         return root;
-
+    }
+    TreeNode* bstFromPreorder(vector<int>& preorder){
+    
+       int i=0;
+        return makeTree(i,preorder, INT_MAX);
+        
     }
     
-    TreeNode* makeTree(vector<int>&preorder, int preStart, int preEnd, vector<int>&inorder, int inStart, int inEnd, unordered_map<int,int>&inHash){
-        if(preStart>preEnd or inStart>inEnd) return NULL;
-        
-        TreeNode * root=new TreeNode(preorder[preStart]);
-        int inorderRootPosition=inHash[preorder[preStart]];
-        int numsLeft = inorderRootPosition - inStart;
-        
-        root->left=makeTree(preorder, preStart+1, preStart+numsLeft, inorder, inStart,inorderRootPosition-1,inHash);
-        root->right=makeTree(preorder,preStart+numsLeft+1,preEnd,inorder,inorderRootPosition+1,inEnd,inHash);
-        
-        return root;
-        
-    }
+  
+    
 
 };

@@ -1,29 +1,37 @@
-<h2><a href="https://leetcode.com/problems/sqrtx/">null. Sqrt(x)</a></h2><h3>null</h3><hr>Can you solve this real interview question? Sqrt(x) - Given a non-negative integer x, return the square root of x rounded down to the nearest integer. The returned integer should be non-negative as well.
+<h2><a href="https://leetcode.com/problems/implement-trie-prefix-tree/">null. Implement Trie (Prefix Tree)</a></h2><h3>null</h3><hr>Can you solve this real interview question? Implement Trie (Prefix Tree) - A trie [https://en.wikipedia.org/wiki/Trie] (pronounced as "try") or prefix tree is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. There are various applications of this data structure, such as autocomplete and spellchecker.
 
-You must not use any built-in exponent function or operator.
+Implement the Trie class:
 
- * For example, do not use pow(x, 0.5) in c++ or x ** 0.5 in python.
+ * Trie() Initializes the trie object.
+ * void insert(String word) Inserts the string word into the trie.
+ * boolean search(String word) Returns true if the string word is in the trie (i.e., was inserted before), and false otherwise.
+ * boolean startsWith(String prefix) Returns true if there is a previously inserted string word that has the prefix prefix, and false otherwise.
 
  
 
 Example 1:
 
 
-Input: x = 4
-Output: 2
-Explanation: The square root of 4 is 2, so we return 2.
+Input
+["Trie", "insert", "search", "search", "startsWith", "insert", "search"]
+[[], ["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]]
+Output
+[null, null, true, false, true, null, true]
 
-
-Example 2:
-
-
-Input: x = 8
-Output: 2
-Explanation: The square root of 8 is 2.82842..., and since we round it down to the nearest integer, 2 is returned.
+Explanation
+Trie trie = new Trie();
+trie.insert("apple");
+trie.search("apple");   // return True
+trie.search("app");     // return False
+trie.startsWith("app"); // return True
+trie.insert("app");
+trie.search("app");     // return True
 
 
  
 
 Constraints:
 
- * 0 <= x <= 231 - 1
+ * 1 <= word.length, prefix.length <= 2000
+ * word and prefix consist only of lowercase English letters.
+ * At most 3 * 104 calls in total will be made to insert, search, and startsWith.

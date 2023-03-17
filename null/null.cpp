@@ -1,14 +1,35 @@
-class Solution {
+class Trie {
 public:
-    int mySqrt(int x) {
-        int left = 0, right = x;
+    Trie() {}
 
-        while(left<=right){
-            long long mid = left + (right - left)/2;
-            if(mid * mid <= x) left = mid+1;
-            else right = mid-1;
+    void insert(string word) {
+        Trie* node = this;
+        for (char ch : word) {
+            if (!node->next.count(ch)) { node->next[ch] = new Trie(); }
+            node = node->next[ch];
         }
-
-        return left-1;
+        node->isword = true;
     }
+
+    bool search(string word) {
+        Trie* node = this;
+        for (char ch : word) {
+            if (!node->next.count(ch)) { return false; }
+            node = node->next[ch];
+        }
+        return node->isword;
+    }
+
+    bool startsWith(string prefix) {
+        Trie* node = this;
+        for (char ch : prefix) {
+            if (!node->next.count(ch)) { return false; }
+            node = node->next[ch];
+        }
+        return true;
+    }
+
+private:
+    map<char, Trie*> next = {};
+    bool isword = false;
 };

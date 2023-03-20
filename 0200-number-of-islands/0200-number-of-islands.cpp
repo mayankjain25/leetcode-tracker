@@ -1,5 +1,6 @@
 class Solution {
-private:
+public:
+
     void bfs(int row, int col, vector<vector<char>>&grid, vector<vector<bool>>&vis){
         vis[row][col] = true;
         queue<pair<int,int>>q;
@@ -11,53 +12,34 @@ private:
             auto val = q.front();
             q.pop();
 
-            //traversing the four directions
-            
-             for(int deltarow=-1;deltarow<=1;deltarow++){
-                for(int deltacol=-1;deltacol<=1;deltacol++){
-                    if((deltarow==-1 and deltacol==-1) or (deltarow==-1 and deltacol==1) or (deltarow==1 and deltacol==-1) or (deltarow==1 and deltacol==1))
-                    continue;
+            vector<int>delrow = {-1,0,1,0},delcol = {0,1,0,-1};
 
-                    int nr=val.first+deltarow;
-                    int nc=val.second+deltacol;
-                    if(nr>=0 and nc>=0 and nr<n and nc<m and !vis[nr][nc] and grid[nr][nc]=='1'){
-                        vis[nr][nc]=1;
-                        q.push({nr,nc});
-                    }
+            for(int i=0;i<4;i++){
+                int nr = val.first + delrow[i];
+                int nc = val.second + delcol[i];
+
+                if(nr>=0 and nr<n and nc>=0 and nc<m and !vis[nr][nc] and grid[nr][nc]=='1'){
+                    vis[nr][nc] = true;
+                    q.push({nr,nc});
                 }
             }
-           
-
         }
     }
-public:
     int numIslands(vector<vector<char>>& grid) {
         int n = grid.size(), m = grid[0].size();
-        vector<vector<bool>>vis(n,vector<bool>(m,false));
-
-        int ans=0;
+        vector<vector<bool>>vis(n, vector<bool>(m,false));
+        int ans = 0;
 
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
-                if(grid[i][j]=='1' and vis[i][j]==false){
-                    ans++;
-
+                if(grid[i][j]=='1' and !vis[i][j]){
+                    vis[i][j]=true;
                     bfs(i,j,grid,vis);
+                    ans++;
                 }
             }
-        }
-
-        for(auto it:vis){
-            for(auto it1:it) cout<<it1<<" ";
-            cout<<endl;
         }
 
         return ans;
     }
 };
-
-
-
-
-
-

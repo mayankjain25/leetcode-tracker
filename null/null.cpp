@@ -1,35 +1,34 @@
-class Trie {
+class Solution {
 public:
-    Trie() {}
+    bool bfs(int i, vector<int>&vis, vector<vector<int>>&graph){
+        queue<int>q;
+        q.push(i);
+        vis[i] = 0;
 
-    void insert(string word) {
-        Trie* node = this;
-        for (char ch : word) {
-            if (!node->next.count(ch)) { node->next[ch] = new Trie(); }
-            node = node->next[ch];
-        }
-        node->isword = true;
-    }
+        while(!q.empty()){
+            auto val = q.front();
+            q.pop();
 
-    bool search(string word) {
-        Trie* node = this;
-        for (char ch : word) {
-            if (!node->next.count(ch)) { return false; }
-            node = node->next[ch];
+            for(auto node:graph[val]){
+                if(vis[node]==-1){
+                    q.push(node);
+                    vis[node] = !vis[val];
+                }
+                else{
+                    if(vis[node]==vis[val]) return false;
+                }
+            }
         }
-        return node->isword;
-    }
 
-    bool startsWith(string prefix) {
-        Trie* node = this;
-        for (char ch : prefix) {
-            if (!node->next.count(ch)) { return false; }
-            node = node->next[ch];
-        }
         return true;
     }
+    bool isBipartite(vector<vector<int>>& graph) {
+        vector<int>color(graph.size(),-1);
 
-private:
-    map<char, Trie*> next = {};
-    bool isword = false;
+        for(int i=0;i<graph.size();i++){
+            if(color[i]==-1 and bfs(i,color,graph)==false) return false;
+        }
+
+        return true;
+    }
 };

@@ -1,64 +1,61 @@
 class Solution {
 public:
     int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
-        vector<vector<int>>matrix(n, vector<int>(n,1e9));
-
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                if(i==j) matrix[i][j]=0;
-
-            }
-        }
+        
+        unordered_map<int, vector<pair<int,int>>>adj;
 
         for(auto it:edges){
-            int u = it[0];
-            int v = it[1];
-            int w = it[2];
-            matrix[u][v]=w;
-            matrix[v][u] = w;
+            int u = it[0], v=it[1], w=it[2];
+            adj[u].push_back({v,w});
+            adj[v].push_back({u,w});
         }
 
-        // for(auto it:matrix){
-        //     for(auto it1:it) cout<<it1<<" ";
-        //     cout<<endl;
-        // }
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>>pq;
 
-        int ans = 0;
-        for(int via = 0; via<n;via++){
-            for(int i=0;i<n;i++){
-                for(int j=0;j<n;j++){
-                    matrix[i][j] = min(matrix[i][j], matrix[i][via] + matrix[via][j]);
-                    // if(matrix[i][j]<=distanceThreshold) ans = max(ans, i);
+        vector<vector<int>>dist(n, vector<int>(n, 1e9));
+
+        for(int i=0;i<n;i++) for(int j=0;j<n;j++) if(i==j) dist[i][j]=0;
+
+        for(int i=0;i<n;i++){
+            pq.push({0,i});
+
+            while(!pq.empty()){
+                auto item = pq.top();
+                pq.pop();
+
+                int currDist = item.first;
+                int currNode = item.second;
+
+                for(auto it:adj[currNode]){
+                    int edgeWt = it.second;
+                    int newNode = it.first;
+
+                    if(currDist + edgeWt < dist[i][newNode]){
+                        dist[i][newNode] = currDist + edgeWt;
+                        pq.push({dist[i][newNode], newNode});
+                    }
                 }
             }
         }
 
-        cout<<"-------------"<<endl;
-
-        for(auto it:matrix){
+        for(auto it:dist){
             for(auto it1:it) cout<<it1<<" ";
             cout<<endl;
         }
 
-        //checking for threshold values
-        // vector<pair<int,int>> temp;
-        int mini = INT_MAX;
-        for(int i=0;i<n;i++){
-            int cnt=0; 
-            // mini = INT_MAX;
-            for(int j=0;j<n;j++){
-                if(matrix[i][j]!=0 and matrix[i][j]<=distanceThreshold) cnt++;
 
+        int ans = 0, mini = INT_MAX;
+
+        for(int i=0;i<n;i++){
+            int cnt = 0;
+            for(int j=0;j<n;j++){
+                if(dist[i][j]<=distanceThreshold) cnt++;
             }
             if(mini>=cnt){
-                mini = cnt;
-                ans = i;
+                mini=cnt;
+                ans=i;
             }
-            // temp.push_back({cnt,i});
         }
-
-                                                   
-
         return ans;
     }
 };

@@ -23,11 +23,23 @@ class Solution{
         else notPick = helper(index - 1, target, arr,dp);
         return dp[index][target]=max(pick, notPick);
     }
-    int cutRod(int price[], int n) {
+    int cutRod(int arr[], int n) {
         //code here
-        int sz = sizeof(price)/sizeof(price[0]);
-        vector<vector<int>>dp(n+1, vector<int>(n+1, -1));
-        return helper(n, n, price, dp);
+        // int sz = sizeof(price)/sizeof(price[0]);
+        vector<vector<int>>dp(n, vector<int>(n+1, 0));
+        for(int i=0;i<=n;i++) dp[0][i] = i * arr[0];
+        for(int i=1;i<n;i++){
+            for(int j=0;j<=n;j++){
+                int notPick = dp[i-1][j];
+                int  pick = INT_MIN;
+                if(i+1<=j){
+                    pick = arr[i] + dp[i][j-(i+1)];
+                    // notPick = dp[i-1][j];
+                }
+                dp[i][j] = max(pick, notPick);
+            }
+        }
+        return dp[n-1][n];
     }
 };
 

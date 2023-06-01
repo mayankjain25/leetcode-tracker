@@ -1,14 +1,7 @@
 class Solution {
 public:
-    int maximizeSum(vector<int>& nums, int k) {
-        int maxi = *max_element(nums.begin(),nums.end());
-        int sum = 0;
-        
-        while(k--){
-            sum += maxi;
-            maxi++;
-        }
-        
-        return sum;
+    string removeTrailingZeros(string num) {
+        while(num[num.size()-1]=='0') num.pop_back();
+        return num;
     }
 };
